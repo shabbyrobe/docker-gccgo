@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -o errexit -o nounset -o pipefail
+
+dir="$( pwd )"
+
+docker run \
+    --rm \
+    -v "$dir":/data \
+    --workdir /data \
+    -it \
+    gccgo \
+    go "$@"
