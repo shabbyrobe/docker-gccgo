@@ -14,13 +14,27 @@ randhex() {
     printf "%x" $RANDOM
 }
 
-cmd-build() {
+cmd-build-ver() {
     log="/tmp/gccgo-build-$(date +%s)-$(randhex)$(randhex).log"
 
     echo "Logging stdout to $log"
     start="$( date +%s )"
     pushd "$script_abspath" >> /dev/null
         docker build "${cpuset_arg[@]}" -t gccgo . > "$log"
+    popd >> /dev/null
+
+    end="$( date +%s )"
+    taken=$((end-start))
+    echo "Build completed in $taken seconds"
+}
+
+cmd-build-git() {
+    log="/tmp/gccgo-build-$(date +%s)-$(randhex)$(randhex).log"
+
+    echo "Logging stdout to $log"
+    start="$( date +%s )"
+    pushd "$script_abspath" >> /dev/null
+        docker build "${cpuset_arg[@]}" -f Dockerfile.git -t gccgo-git . > "$log"
     popd >> /dev/null
 
     end="$( date +%s )"

@@ -5,8 +5,8 @@ dir="$( pwd )"
 
 docker run \
     --rm \
-    -v "$dir":/data \
+    --mount type=bind,source="$dir",target=/data \
     --workdir /data \
     -it \
-    gccgo \
+    gccgo-git \
     go "$@"
